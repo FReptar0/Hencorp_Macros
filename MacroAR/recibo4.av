@@ -1,0 +1,177 @@
+'
+' Archivo Macro de Sage 300: C:\Directorio_de_Trabajo\HENCORP\MacroAR\recibo4.avb
+' Grabado en: Mon Jul 28 18:38:14 2025
+'
+
+On Error GoTo ACCPACErrorHandler
+
+' TODO: To increase efficiency, comment out any unused DB links.
+Dim mDBLinkCmpRW As AccpacCOMAPI.AccpacDBLink
+Set mDBLinkCmpRW = OpenDBLink(DBLINK_COMPANY,DBLINK_FLG_READWRITE)
+
+Dim mDBLinkSysRW As AccpacCOMAPI.AccpacDBLink
+Set mDBLinkSysRW = OpenDBLink(DBLINK_SYSTEM,DBLINK_FLG_READWRITE)
+
+Dim temp As Boolean
+Dim ARRECMAC1batch As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1batchFields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0041", ARRECMAC1batch
+Set ARRECMAC1batchFields = ARRECMAC1batch.Fields
+
+Dim ARRECMAC1header As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1headerFields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0042", ARRECMAC1header
+Set ARRECMAC1headerFields = ARRECMAC1header.Fields
+
+Dim ARRECMAC1detail1 As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1detail1Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0044", ARRECMAC1detail1
+Set ARRECMAC1detail1Fields = ARRECMAC1detail1.Fields
+
+Dim ARRECMAC1detail2 As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1detail2Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0045", ARRECMAC1detail2
+Set ARRECMAC1detail2Fields = ARRECMAC1detail2.Fields
+
+Dim ARRECMAC1detail3 As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1detail3Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0043", ARRECMAC1detail3
+Set ARRECMAC1detail3Fields = ARRECMAC1detail3.Fields
+
+Dim ARRECMAC1detail4 As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1detail4Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0061", ARRECMAC1detail4
+Set ARRECMAC1detail4Fields = ARRECMAC1detail4.Fields
+
+Dim ARRECMAC1detail5 As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1detail5Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0406", ARRECMAC1detail5
+Set ARRECMAC1detail5Fields = ARRECMAC1detail5.Fields
+
+Dim ARRECMAC1detail6 As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1detail6Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0170", ARRECMAC1detail6
+Set ARRECMAC1detail6Fields = ARRECMAC1detail6.Fields
+
+Dim ARRECMAC1detail7 As AccpacCOMAPI.AccpacView
+Dim ARRECMAC1detail7Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0085", ARRECMAC1detail7
+Set ARRECMAC1detail7Fields = ARRECMAC1detail7.Fields
+
+ARRECMAC1batch.Compose Array(ARRECMAC1header)
+
+ARRECMAC1header.Compose Array(ARRECMAC1batch, ARRECMAC1detail3, ARRECMAC1detail1, ARRECMAC1detail5, ARRECMAC1detail6, ARRECMAC1detail7)
+
+ARRECMAC1detail1.Compose Array(ARRECMAC1header, ARRECMAC1detail2, ARRECMAC1detail4)
+
+ARRECMAC1detail2.Compose Array(ARRECMAC1detail1)
+
+ARRECMAC1detail3.Compose Array(ARRECMAC1header)
+
+ARRECMAC1detail4.Compose Array(ARRECMAC1batch, ARRECMAC1header, ARRECMAC1detail3, ARRECMAC1detail1, ARRECMAC1detail2)
+
+ARRECMAC1detail5.Compose Array(ARRECMAC1header)
+
+ARRECMAC1detail6.Compose Array(ARRECMAC1header)
+
+ARRECMAC1detail7.Compose Array(ARRECMAC1header)
+
+
+Dim ARPAYMPOST2 As AccpacCOMAPI.AccpacView
+Dim ARPAYMPOST2Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "AR0049", ARPAYMPOST2
+Set ARPAYMPOST2Fields = ARPAYMPOST2.Fields
+
+
+ARRECMAC1batch.RecordClear
+
+ARRECMAC1batchFields( "CODEPYMTYP" ).PutWithoutVerification( "CA" )   ' Tipo de Lote
+
+ARRECMAC1headerFields( "CODEPYMTYP" ).PutWithoutVerification( "CA" )  ' Tipo de Lote
+ARRECMAC1detail3Fields( "CODEPAYM" ).PutWithoutVerification( "CA" )   ' Tipo de Lote
+ARRECMAC1detail1Fields( "CODEPAYM" ).PutWithoutVerification( "CA" )   ' Tipo de Lote
+ARRECMAC1detail2Fields( "CODEPAYM" ).PutWithoutVerification( "CA" )   ' Tipo de Lote
+ARRECMAC1detail4Fields( "PAYMTYPE" ).PutWithoutVerification( "CA" )   ' Tipo de Lote
+ARRECMAC1batchFields( "CNTBTCH" ).PutWithoutVerification( "70" )      ' N° de Lote
+ARRECMAC1batch.Read
+
+ARRECMAC1batchFields( "PROCESSCMD" ).PutWithoutVerification( "2" )    ' Comando Procesar
+
+ARRECMAC1batch.Process
+ARRECMAC1detail4.Cancel
+temp = ARRECMAC1header.Exists
+
+ARRECMAC1headerFields( "CNTITEM" ).PutWithoutVerification( "-9999999" )' N° de Asiento
+
+ARRECMAC1header.Browse "", 1
+ARRECMAC1header.Fetch
+temp = ARRECMAC1header.Exists
+ARRECMAC1batch.Read
+ARRECMAC1header.RecordCreate 2
+ARRECMAC1detail4.Cancel
+temp = ARRECMAC1header.Exists
+ARRECMAC1batch.Browse "((CODEPYMTYP = ""CA"") AND ((BATCHSTAT = 1) OR (BATCHSTAT = 7)))", 1
+
+ARRECMAC1batchFields( "DATEBTCH" ).Value = DateSerial(2025,07,21)     ' Fecha de Lote
+
+ARRECMAC1batch.Update
+ARRECMAC1headerFields( "CNTITEM" ).PutWithoutVerification( "0" )      ' N° de Asiento
+ARRECMAC1header.RecordCreate 2
+ARRECMAC1detail4.Cancel
+temp = ARRECMAC1header.Exists
+ARRECMAC1batchFields( "IDBANK" ).Value = "FCBANK"                     ' Cód. de Banco
+ARRECMAC1batch.Update
+ARRECMAC1headerFields( "CNTITEM" ).PutWithoutVerification( "0" )      ' N° de Asiento
+ARRECMAC1header.RecordCreate 2
+ARRECMAC1detail4.Cancel
+temp = ARRECMAC1header.Exists
+ARRECMAC1detail4.Cancel
+temp = ARRECMAC1header.Exists
+ARRECMAC1batchFields( "CODECURN" ).Value = "USD"                      ' Moneda de Banco Predet.
+ARRECMAC1batch.Update
+ARRECMAC1headerFields( "CNTITEM" ).PutWithoutVerification( "0" )      ' N° de Asiento
+ARRECMAC1header.RecordCreate 2
+ARRECMAC1detail4.Cancel
+temp = ARRECMAC1header.Exists
+ARRECMAC1batchFields( "PROCESSCMD" ).PutWithoutVerification( "0" )    ' Comando Procesar
+ARRECMAC1batch.Process
+ARRECMAC1headerFields( "CNTITEM" ).PutWithoutVerification( "0" )      ' N° de Asiento
+ARRECMAC1header.RecordCreate 2
+ARRECMAC1detail4.Cancel
+temp = ARRECMAC1header.Exists
+ARRECMAC1batchFields( "DEPDATE" ).PutWithoutVerification( DateSerial(2025,07,22) )' Fch. Depósito
+ARRECMAC1batch.Update
+ARRECMAC1headerFields( "TEXTRMIT" ).Value = "TEST"                    ' Descripción del Asiento
+
+ARRECMAC1headerFields( "RMITTYPE" ).Value = "5"                       ' Tipo Trans. de Recibo
+
+ARRECMAC1detail1.Cancel
+ARRECMAC1headerFields( "PROCESSCMD" ).PutWithoutVerification( "0" )   ' Cód. de Comando Procesar
+ARRECMAC1header.Process
+
+ARRECMAC1headerFields( "DATERMIT" ).Value = DateSerial(2025,07,14)    ' Fecha de Recibo/Fecha de Ajuste
+ARRECMAC1headerFields( "DATEBUS" ).Value = DateSerial(2025,07,15)     ' Fch. Asentam.
+
+Exit Sub
+
+ACCPACErrorHandler:
+  Dim lCount As Long
+  Dim lIndex As Long
+
+  If Errors Is Nothing Then
+       MsgBox Err.Description
+  Else 
+      lCount = Errors.Count
+
+      If lCount = 0 Then
+          MsgBox Err.Description
+      Else
+          For lIndex = 0 To lCount - 1 
+              MsgBox Errors.Item(lIndex)
+          Next
+          Errors.Clear
+      End If
+      Resume Next
+
+  End If
+

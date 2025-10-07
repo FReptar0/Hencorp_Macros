@@ -1,0 +1,102 @@
+[Root]
+Most Recent Package=Instalador MacroGL
+
+
+[Package|Instalador MacroGL|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=C:\Directorio_de_Trabajo\HENCORP\MacroGL\Empaquetado
+
+[Package|Instalador MacroGL|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Instalador MacroGL|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Instalador MacroGL|Files Found]
+
+[Package|Instalador MacroGL|Files Released]
+
+[Package|Instalador MacroGL|Missing Dependency Information]
+C:\Program Files (x86)\Common Files\system\ado\msado28.tlb=
+C:\Sage\Sage300\runtime\a4wSignonMgr.exe=
+C:\Sage\Sage300\runtime\a4wSessionMgr.dll=
+C:\Sage\Sage300\runtime\a4wcomex.dll=
+
+[Package|Instalador MacroGL|Out-of-Date Dependency Information]
+
+[Package|Instalador MacroGL|Files Added]
+
+[Package|Instalador MacroGL|Files Removed]
+c:\sage\sage300\runtime\a4wcomex.dll=
+c:\sage\sage300\runtime\a4wsessionmgr.dll=
+c:\sage\sage300\runtime\a4wsignonmgr.exe=
+
+[Package|Instalador MacroGL|Files In Project]
+C:\Directorio_de_Trabajo\HENCORP\MacroGL\GL2100.exe=Yes
+C:\Windows\System32\msvbvm60.dll=Yes
+C:\Windows\System32\oleaut32.dll=Yes
+C:\Windows\System32\olepro32.dll=Yes
+C:\Windows\System32\asycfilt.dll=Yes
+C:\Windows\System32\stdole2.tlb=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Windows\System32\VB6ES.DLL=Yes
+C:\Sage\Sage300\runtime\a4wcomex.dll=No
+C:\Sage\Sage300\runtime\a4wSessionMgr.dll=No
+C:\Sage\Sage300\runtime\a4wSignonMgr.exe=No
+C:\Program Files (x86)\Common Files\system\ado\msado28.tlb=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Windows\System32\VB6STKIT.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+
+[Package|Instalador MacroGL|Configure Registry Files]
+Applicable=No
+
+[Package|Instalador MacroGL|Configure Remote Servers]
+Applicable=No
+
+[Package|Instalador MacroGL|Install Locations]
+C:\Directorio_de_Trabajo\HENCORP\MacroGL\GL2100.exe=$(AppPath)
+C:\Windows\System32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Windows\System32\oleaut32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\olepro32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\asycfilt.dll=$(WinSysPathSysFile)
+C:\Windows\System32\stdole2.tlb=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Windows\System32\VB6ES.DLL=$(WinSysPath)
+C:\Program Files (x86)\Common Files\system\ado\msado28.tlb=$(WinSysPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\Windows\System32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+
+[Package|Instalador MacroGL|Configure Shared Files]
+Applicable=Yes
+C:\Directorio_de_Trabajo\HENCORP\MacroGL\GL2100.exe=Yes
+
+[Package|Instalador MacroGL|Distribution]
+Type=single
+Size=
+Title=GL2100
+
+[Package|Instalador MacroGL|IconGroups]
+Group0=GL2100
+PrivateGroup0=True
+Parent0=$(Programs)
+
+[Package|Instalador MacroGL|GL2100]
+Icon1=GL2100.exe
+Title1=GL2100
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Instalador MacroGL|Package]
+PackageFolder=C:\Directorio_de_Trabajo\HENCORP\MacroGL\Empaquetado
+ProjectFolder=C:\Directorio_de_Trabajo\HENCORP\MacroGL
+ServerSideCab=
+File1=C:\Directorio_de_Trabajo\HENCORP\MacroGL\Empaquetado\setup.exe
+File2=C:\Directorio_de_Trabajo\HENCORP\MacroGL\Empaquetado\Setup.Lst
+File3=C:\Directorio_de_Trabajo\HENCORP\MacroGL\Empaquetado\GL2100.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz

@@ -1,0 +1,95 @@
+'
+' Archivo Macro de Sage 300: C:\Directorio_de_Trabajo\HENCORP\MacroAR\asentar gl1.0.avb
+' Grabado en: Wed Jul 30 12:44:04 2025
+'
+
+On Error GoTo ACCPACErrorHandler
+
+' TODO: To increase efficiency, comment out any unused DB links.
+Dim mDBLinkCmpRW As AccpacCOMAPI.AccpacDBLink
+Set mDBLinkCmpRW = OpenDBLink(DBLINK_COMPANY,DBLINK_FLG_READWRITE)
+
+Dim mDBLinkSysRW As AccpacCOMAPI.AccpacDBLink
+Set mDBLinkSysRW = OpenDBLink(DBLINK_SYSTEM,DBLINK_FLG_READWRITE)
+
+Dim temp As Boolean
+Dim GLBATCH60batch As AccpacCOMAPI.AccpacView
+Dim GLBATCH60batchFields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "GL0008", GLBATCH60batch
+Set GLBATCH60batchFields = GLBATCH60batch.Fields
+
+Dim GLBATCH60header As AccpacCOMAPI.AccpacView
+Dim GLBATCH60headerFields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "GL0006", GLBATCH60header
+Set GLBATCH60headerFields = GLBATCH60header.Fields
+
+Dim GLBATCH60detail1 As AccpacCOMAPI.AccpacView
+Dim GLBATCH60detail1Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "GL0010", GLBATCH60detail1
+Set GLBATCH60detail1Fields = GLBATCH60detail1.Fields
+
+Dim GLBATCH60detail2 As AccpacCOMAPI.AccpacView
+Dim GLBATCH60detail2Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "GL0402", GLBATCH60detail2
+Set GLBATCH60detail2Fields = GLBATCH60detail2.Fields
+
+GLBATCH60batch.Compose Array(GLBATCH60header)
+
+GLBATCH60header.Compose Array(GLBATCH60batch, GLBATCH60detail1)
+
+GLBATCH60detail1.Compose Array(GLBATCH60header, GLBATCH60detail2)
+
+GLBATCH60detail2.Compose Array(GLBATCH60detail1)
+
+
+
+GLBATCH60batchFields( "PROCESSCMD" ).PutWithoutVerification( "2" )    ' Bloquear Opc. Lote
+
+GLBATCH60batch.Process
+
+GLBATCH60batchFields( "RDYTOPOST" ).PutWithoutVerification( "1" )     ' Listo para Asentar
+
+GLBATCH60batch.Update
+GLBATCH60batch.Update
+
+GLBATCH60batchFields( "PROCESSCMD" ).PutWithoutVerification( "0" )    ' Bloquear Opc. Lote
+
+GLBATCH60batch.Update
+GLBATCH60batch.Process
+Dim GLPOST61 As AccpacCOMAPI.AccpacView
+Dim GLPOST61Fields As AccpacCOMAPI.AccpacViewFields
+mDBLinkCmpRW.OpenView "GL0030", GLPOST61
+Set GLPOST61Fields = GLPOST61.Fields
+
+
+
+GLPOST61Fields( "BATCHIDFR" ).PutWithoutVerification( "000377" )      ' Desde Número de Lote
+
+GLPOST61.Process
+GLBATCH60batch.Read
+GLBATCH60batch.Read
+GLBATCH60detail1Fields( "TRANSNBR" ).PutWithoutVerification( "0000000020" )' Número de Transacción
+
+Exit Sub
+
+ACCPACErrorHandler:
+  Dim lCount As Long
+  Dim lIndex As Long
+
+  If Errors Is Nothing Then
+       MsgBox Err.Description
+  Else 
+      lCount = Errors.Count
+
+      If lCount = 0 Then
+          MsgBox Err.Description
+      Else
+          For lIndex = 0 To lCount - 1 
+              MsgBox Errors.Item(lIndex)
+          Next
+          Errors.Clear
+      End If
+      Resume Next
+
+  End If
+
