@@ -196,11 +196,10 @@ Each staging table includes:
 
 ---
 
-**Note**: This system is designed for enterprise ERP integration and requires appropriate technical expertise for deployment, configuration, and maintenance in production environments.
-**Disclaimer**: Use this software at your own risk. Ensure compliance with your organization's IT policies and Sage 300 licensing agreements.
-**License**: MIT License
-**Author**: Tersoft - [www.tersoft.mx](http://www.tersoft.mx)
-**Version**: 1.0.0 - October 2025
+- **Note**: This system is designed for enterprise ERP integration and requires appropriate technical expertise for deployment, configuration, and maintenance in production environments.
+- **Disclaimer**: Use this software at your own risk. Ensure compliance with your organization's IT policies and Sage 300 licensing agreements.
+- **License**: MIT License
+- **Author**: Tersoft - [www.tersoft.mx](http://www.tersoft.mx)
+- **Version**: 1.0.0 - October 2025
 
 ---
-
